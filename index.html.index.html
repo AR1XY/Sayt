@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>RtpBox | Premium VPN Express</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0f1e 0%, #0c1222 100%);
+            color: #e0e0e0;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px 16px; }
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            cursor: pointer;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 16px 0 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .nav-links { display: flex; gap: 12px; flex-wrap: wrap; }
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 40px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { background: rgba(108,92,231,0.3); }
+        .hero { text-align: center; padding: 50px 16px 40px; }
+        .hero h1 { font-size: clamp(28px, 8vw, 52px); margin-bottom: 16px; background: linear-gradient(135deg, #fff, #a29bfe); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .version-badge { background: #6c5ce7; display: inline-block; padding: 6px 20px; border-radius: 60px; font-size: 14px; margin-top: 20px; }
+        .tech-grid, .reviews-grid, .team-grid, .donors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+        .tech-card, .review-card, .team-card, .donor-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            padding: 24px;
+            border-radius: 24px;
+            transition: 0.3s;
+            border: 1px solid rgba(108,92,231,0.2);
+        }
+        .tech-card:hover, .review-card:hover, .team-card:hover, .donor-card:hover { transform: translateY(-5px); }
+        .stars { color: #f39c12; margin: 8px 0; }
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #6c5ce7;
+            color: white;
+            text-decoration: none;
+            border-radius: 60px;
+            margin: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(108,92,231,0.4); }
+        .donate-section {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(108,92,231,0.1);
+            border-radius: 32px;
+            margin: 40px 0;
+        }
+        footer { text-align: center; padding: 30px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 40px; }
+        [contenteditable="true"] {
+            outline: 2px dashed #6c5ce7;
+            padding: 4px 6px;
+            border-radius: 12px;
+            background: rgba(108,92,231,0.15);
+        }
+        .admin-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #1e1e2f;
+            padding: 10px 16px;
+            display: none;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            z-index: 1000;
+            border-bottom: 2px solid #6c5ce7;
+        }
+        .admin-bar.active { display: flex; }
+        .edit-mode-btn { background: #f39c12; color: #1e1e2f; }
+        .save-btn { background: #6c5ce7; color: white; }
+        .exit-btn { background: #e74c3c; color: white; }
+        .admin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .admin-modal.active { visibility: visible; opacity: 1; }
+        .admin-card {
+            background: #1e1e2f;
+            padding: 30px;
+            border-radius: 28px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+        }
+        .admin-card input {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 48px;
+            border: none;
+            background: #2a2a3a;
+            color: white;
+        }
+        @media (max-width: 600px) { .container { padding: 16px; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <nav>
+        <div class="logo" id="secretLogo">RtpBox</div>
+        <div class="nav-links">
+            <a href="#" data-section="home">Главная</a>
+            <a href="#" data-section="features">Функции</a>
+            <a href="#" data-section="reviews">Отзывы</a>
+            <a href="#" data-section="donors">Поддержали</a>
+            <a href="#" data-section="download">Скачать</a>
+            <a href="#" data-section="donate">Донат</a>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <h1 id="heroTitle" class="editable">RtpBox без границ</h1>
+        <p id="heroDesc" class="editable">Лучший клиент на базе Xray Core. Высокая скорость, современный интерфейс и полная анонимность в один клик.</p>
+        <div class="version-badge" id="versionText" class="editable">V.1.2.0-STABLE</div>
+    </section>
+
+    <section id="features">
+        <h2 style="text-align:center; margin-bottom:30px;">Технологии RtpBox</h2>
+        <div class="tech-grid">
+            <div class="tech-card"><h3 class="editable">🚀 Скорость 1 Гбит/с</h3><p class="editable">Мы не режем скорость вашего провайдера. Наслаждайтесь 4K видео без лагов.</p></div>
+            <div class="tech-card"><h3 class="editable">🔒 Reality / VLESS</h3><p class="editable">Трафик маскируется под обычный просмотр сайтов. Провайдер вас не заметит.</p></div>
+            <div class="tech-card"><h3 class="editable">🕶️ Полная анонимность</h3><p class="editable">Без логов, без слежки. Ваши данные принадлежат только вам.</p></div>
+        </div>
+    </section>
+
+    <section id="reviews">
+        <h2 style="text-align:center; margin-bottom:30px;">Отзывы пользователей</h2>
+        <div id="reviewsContainer" class="reviews-grid"></div>
+        <div id="addReviewContainer" style="text-align:center;"></div>
+    </section>
+
+    <section id="donors">
+        <h2 style="text-align:center; margin-bottom:30px;">🌟 Поддержали RtpBox</h2>
+        <div id="donorsContainer" class="donors-grid"></div>
+        <div id="addDonorContainer" style="text-align:center;"></div>
+    </section>
+
+    <section id="teamSection">
+        <h2 style="text-align:center; margin-bottom:30px;">Команда помощников</h2>
+        <div id="teamContainer" class="team-grid"></div>
+        <div id="addTeamContainer" style="text-align:center;"></div>
+    </section>
+
+    <section id="download" style="text-align:center; padding:50px 16px;">
+        <h2 class="editable">Установи RtpBox</h2>
+        <p class="editable">Получи доступ к свободному интернету в один клик.</p>
+        <button class="btn" id="downloadBtn">📥 СКАЧАТЬ АРК ФАЙЛ</button>
+        <p id="downloadCount" style="margin-top:16px;">Скачали уже <span id="downloadCounterSpan">0</span> пользователей</p>
+        <div id="downloadLinkEditor"></div>
+    </section>
+
+    <section id="donate" class="donate-section">
+        <h2 class="editable">Поддержать RtpBox</h2>
+        <p class="editable">Спасибо за поддержку проекта!</p>
+        <div id="donateLinkContainer"><a href="#" id="donateLink" class="btn" target="_blank">❤️ ПОДДЕРЖАТЬ</a></div>
+        <div id="donateLinkEditor"></div>
+    </section>
+
+    <footer>
+        <p>© 2026 RtpBox | Premium VPN Express</p>
+    </footer>
+</div>
+
+<div id="adminBar" class="admin-bar">
+    <button id="toggleEditBtn" class="btn edit-mode-btn">✏️ Режим правки</button>
+    <button id="saveAllBtn" class="btn save-btn">💾 Сохранить всё</button>
+    <button id="exitAdminBtn" class="btn exit-btn">🚪 Выйти</button>
+</div>
+
+<div id="adminModal" class="admin-modal">
+    <div class="admin-card">
+        <h3>🔐 Админ-панель</h3>
+        <input type="text" id="adminLogin" placeholder="Логин" value="1">
+        <input type="password" id="adminPass" placeholder="Пароль" value="1">
+        <button id="submitLogin" class="btn">Войти</button>
+        <button id="closeModal" class="btn" style="background:#444;">Закрыть</button>
+    </div>
+</div>
+<script>
+    // ⚠️ ВСТАВЬ СВОИ ДАННЫЕ (они уже должны быть у тебя в заметках)
+    const SUPABASE_URL = 'https://paacjtojjlwprywgjzry.supabase.co/rest/v1/';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhYWNqdG9qamx3cHJ5d2dqenJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MTcsImV4cCI6MjA5MzQ4MjYxN30.3M76ekS7MzYQskaoX9bdJqKutoZ_6OC0EOXv93Rq4WQ';
+
+    let isAdmin = false;
+    let editMode = false;
+
+    // Функции работы с Supabase
+    async function fetchData(table) {
+        const response = await fetch(`${SUPABASE_URL}${table}?select=*`, {
+            headers: { 'apikey': SUPABASE_ANON_KEY }
+        });
+        return await response.json();
+    }
+
+    async function addData(table, data) {
+        await fetch(`${SUPABASE_URL}${table}`, {
+            method: 'POST',
+            headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    }
+
+    async function deleteData(table, id) {
+        await fetch(`${SUPABASE_URL}${table}?id=eq.${id}`, {
+            method: 'DELETE',
+            headers: { 'apikey': SUPABASE_ANON_KEY }
+        });
+    }
+
+    // Загрузка отзывов
+    async function loadReviews() {
+        const reviews = await fetchData('reviews');
+        const container = document.getElementById('reviewsContainer');
+        if (editMode && isAdmin) {
+            container.innerHTML = reviews.map(r => `
+                <div class="review-card" data-id="${r.id}">
+                    <input type="text" class="edit-name" value="${r.name}" placeholder="Имя">
+                    <div class="stars">${'⭐'.repeat(r.stars)}</div>
+                    <textarea class="edit-text">${r.text}</textarea>
+                    <button class="delete-review-btn btn" style="background:#e74c3c;">Удалить</button>
+                </div>
+            `);
+        } else {
+            container.innerHTML = reviews.map(r => `
+                <div class="review-card">
+                    <strong>${r.name}</strong>
+                    <div class="stars">${'⭐'.repeat(r.stars)}</div>
+                    <p>${r.text}</p>
+                </div>
+            `);
+        }
+    }
+        // Вход в админку
+    document.getElementById('submitLogin').onclick = () => {
+        const login = document.getElementById('adminLogin').value;
+        const pass = document.getElementById('adminPass').value;
+        if (login === '1' && pass === '1') {
+            isAdmin = true;
+            localStorage.setItem('rtp_admin', 'true');
+            document.getElementById('adminModal').classList.remove('active');
+            document.getElementById('adminBar').classList.add('active');
+            alert('Добро пожаловать! Нажмите "Режим правки"');
+        } else alert('Неверный логин или пароль');
+    };
+
+    document.getElementById('closeModal').onclick = () => document.getElementById('adminModal').classList.remove('active');
+    document.getElementById('exitAdminBtn').onclick = () => {
+        isAdmin = false;
+        localStorage.removeItem('rtp_admin');
+        document.getElementById('adminBar').classList.remove('active');
+        location.reload();
+    };
+
+    // 5 кликов
+    let clickCount = 0;
+    document.getElementById('secretLogo').onclick = () => {
+        clickCount++;
+        setTimeout(() => clickCount = 0, 1000);
+        if (clickCount === 5) {
+            clickCount = 0;
+            if (localStorage.getItem('rtp_admin') === 'true') {
+                isAdmin = true;
+                document.getElementById('adminBar').classList.add('active');
+            } else {
+                document.getElementById('adminModal').classList.add('active');
+            }
+        }
+    };
+
+    document.getElementById('toggleEditBtn').onclick = () => {
+        editMode = !editMode;
+        document.querySelectorAll('.editable').forEach(el => {
+            el.contentEditable = editMode;
+            el.style.backgroundColor = editMode ? 'rgba(108,92,231,0.2)' : '';
+        });
+        loadReviews(); // перерисовка с кнопками удаления
+    };
+
+    loadReviews();
+    if(localStorage.getItem('rtp_admin') === 'true') {
+        isAdmin = true;
+        document.getElementById('adminBar').classList.add('active');
+    }
+</script>
+</body>
+</html>
