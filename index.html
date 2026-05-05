@@ -3,202 +3,425 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>RtpBox | Premium VPN Express</title>
+    <title>RtpBox — Premium VPN Express</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:system-ui,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0a0f1e,#0c1222);color:#e0e0e0;line-height:1.5}
-        .container{max-width:1200px;margin:0 auto;padding:20px 16px}
-        .logo{font-size:26px;font-weight:800;background:linear-gradient(135deg,#a29bfe,#6c5ce7);-webkit-background-clip:text;background-clip:text;color:transparent;cursor:pointer}
-        nav{display:flex;justify-content:space-between;flex-wrap:wrap;gap:15px;padding:16px 0 20px;border-bottom:1px solid rgba(255,255,255,0.08)}
-        .nav-links{display:flex;gap:12px;flex-wrap:wrap}
-        .nav-links a{color:#ccc;text-decoration:none;padding:6px 14px;border-radius:40px;cursor:pointer}
-        .hero{text-align:center;padding:50px 16px 40px}
-        .hero h1{font-size:clamp(28px,8vw,52px);background:linear-gradient(135deg,#fff,#a29bfe);-webkit-background-clip:text;background-clip:text;color:transparent}
-        .version-badge{background:#6c5ce7;display:inline-block;padding:6px 20px;border-radius:60px;font-size:14px;margin-top:20px}
-        .tech-grid,.reviews-grid,.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin:40px 0}
-        .tech-card,.review-card,.team-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);padding:24px;border-radius:24px}
-        .stars{color:#f39c12;margin:8px 0}
-        .btn{display:inline-block;padding:12px 28px;background:#6c5ce7;color:#fff;border-radius:60px;border:none;cursor:pointer;font-weight:600}
-        .donate-section{text-align:center;padding:50px 20px;background:rgba(108,92,231,0.1);border-radius:32px;margin:40px 0}
-        footer{text-align:center;padding:30px;border-top:1px solid rgba(255,255,255,0.08)}
-        [contenteditable="true"]{outline:2px dashed #6c5ce7;padding:4px 6px;border-radius:12px;background:rgba(108,92,231,0.15)}
-        .admin-bar{position:fixed;top:0;left:0;right:0;background:#1e1e2f;padding:10px 16px;display:none;gap:12px;justify-content:center;z-index:1000;border-bottom:2px solid #6c5ce7}
-        .admin-bar.active{display:flex}
-        .admin-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);z-index:2000;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:0.2s}
-        .admin-modal.active{visibility:visible;opacity:1}
-        .admin-card{background:#1e1e2f;padding:30px;border-radius:28px;width:90%;max-width:350px;text-align:center}
-        .admin-card input{width:100%;padding:14px;margin:12px 0;border-radius:48px;border:none;background:#2a2a3a;color:white}
-        .delete-btn{background:#e74c3c;margin-top:10px;padding:8px 16px}
-        .add-btn{background:#2ecc71}
-        .status-badge{padding:4px 12px;border-radius:20px;font-size:12px;margin-left:10px}
-        .status-approved{background:#2ecc71}
-        .status-pending{background:#f39c12}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #0b0e18;
+            color: #ededee;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 48px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b6a9ff, #6c5ce7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .nav {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: #a1a1aa;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .nav a:hover {
+            color: #c084fc;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 48px 0 32px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 6vw, 56px);
+            background: linear-gradient(135deg, #fff, #b6a9ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 16px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #a1a1aa;
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+
+        .badge {
+            background: #1e1b2e;
+            padding: 6px 18px;
+            border-radius: 60px;
+            font-size: 14px;
+            display: inline-block;
+            border: 1px solid #2d2a44;
+        }
+
+        /* Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+            margin: 48px 0;
+        }
+
+        .card {
+            background: #12131c;
+            border: 1px solid #20222e;
+            border-radius: 28px;
+            padding: 28px;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            border-color: #4a3b8c;
+            transform: translateY(-3px);
+        }
+
+        .btn {
+            background: #6c5ce7;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #4a3b8c;
+        }
+
+        .btn-small {
+            padding: 6px 14px;
+            font-size: 13px;
+        }
+
+        .donate-section {
+            background: #10111c;
+            border-radius: 32px;
+            padding: 48px 24px;
+            text-align: center;
+            margin: 48px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 32px;
+            border-top: 1px solid #20222e;
+            margin-top: 48px;
+            color: #6c6f85;
+        }
+
+        /* Admin panel */
+        .admin-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #0c0d16;
+            backdrop-filter: blur(12px);
+            padding: 12px 20px;
+            display: none;
+            gap: 16px;
+            justify-content: center;
+            z-index: 1000;
+            border-bottom: 1px solid #2d2a44;
+        }
+
+        .admin-bar.active {
+            display: flex;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+            z-index: 2000;
+        }
+
+        .modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-card {
+            background: #12131c;
+            border-radius: 32px;
+            padding: 32px;
+            width: 320px;
+            border: 1px solid #2d2a44;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 24px;
+            border: 1px solid #2d2a44;
+            background: #0b0e18;
+            color: white;
+        }
+
+        [contenteditable="true"] {
+            outline: 2px dashed #6c5ce7;
+            padding: 4px 8px;
+            border-radius: 16px;
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 16px;
+            }
+            .grid {
+                gap: 16px;
+            }
+        }
     </style>
 </head>
 <body>
+
 <div class="container">
-    <nav>
+    <div class="header">
         <div class="logo" id="secretLogo">RtpBox</div>
-        <div class="nav-links">
+        <div class="nav">
             <a data-section="home">Главная</a>
-            <a data-section="features">Функции</a>
+            <a data-section="features">Технологии</a>
             <a data-section="reviews">Отзывы</a>
             <a data-section="team">Команда</a>
             <a data-section="download">Скачать</a>
             <a data-section="donate">Донат</a>
         </div>
-    </nav>
+    </div>
 
     <section id="home" class="hero">
         <h1 id="heroTitle" class="editable">RtpBox без границ</h1>
-        <p id="heroDesc" class="editable">Лучший клиент на базе Xray Core. Высокая скорость, современный интерфейс и полная анонимность в один клик.</p>
-        <div class="version-badge" id="versionText">V.1.2.0-STABLE</div>
+        <p id="heroDesc" class="editable">Лучший клиент на базе Xray Core. Быстро, анонимно и без слежки.</p>
+        <div class="badge" id="versionText">⚡ V.1.2.0-STABLE</div>
     </section>
 
     <section id="features">
-        <h2 style="text-align:center;margin-bottom:30px;">Технологии RtpBox</h2>
-        <div class="tech-grid">
-            <div class="tech-card"><h3 class="editable">🚀 Скорость 1 Гбит/с</h3><p class="editable">Мы не режем скорость вашего провайдера. Наслаждайтесь 4K видео без лагов.</p></div>
-            <div class="tech-card"><h3 class="editable">🔒 Reality / VLESS</h3><p class="editable">Трафик маскируется под обычный просмотр сайтов. Провайдер вас не заметит.</p></div>
-            <div class="tech-card"><h3 class="editable">🕶️ Полная анонимность</h3><p class="editable">Без логов, без слежки. Ваши данные принадлежат только вам.</p></div>
+        <h2 style="text-align:center; margin-bottom:24px;">Технологии</h2>
+        <div class="grid">
+            <div class="card"><h3>🚀 1 Гбит/с</h3><p>Мы не режем скорость. 4K без лагов.</p></div>
+            <div class="card"><h3>🔒 Reality / VLESS</h3><p>Маскировка под обычный трафик.</p></div>
+            <div class="card"><h3>🕶️ Полная анонимность</h3><p>Без логов, без слежки.</p></div>
         </div>
     </section>
 
     <section id="reviews">
-        <h2 style="text-align:center;margin-bottom:30px;">Отзывы пользователей</h2>
-        <div id="reviewsContainer" class="reviews-grid"></div>
-        <div id="reviewsAddPanel" style="text-align:center;"></div>
+        <h2 style="text-align:center; margin-bottom:24px;">Отзывы</h2>
+        <div id="reviewsContainer" class="grid"></div>
+        <div id="reviewsAddPanel" style="text-align:center; margin-top:24px;"></div>
     </section>
 
     <section id="team">
-        <h2 style="text-align:center;margin-bottom:30px;">Команда помощников</h2>
-        <div id="teamContainer" class="team-grid"></div>
-        <div id="teamAddPanel" style="text-align:center;"></div>
+        <h2 style="text-align:center; margin-bottom:24px;">Команда</h2>
+        <div id="teamContainer" class="grid"></div>
+        <div id="teamAddPanel" style="text-align:center; margin-top:24px;"></div>
     </section>
 
-    <section id="download" style="text-align:center;padding:50px 16px;">
+    <section id="download" style="text-align:center; margin:48px 0;">
         <h2 class="editable">Установи RtpBox</h2>
-        <p class="editable">Получи доступ к свободному интернету в один клик.</p>
-        <button class="btn" id="downloadBtn">📥 СКАЧАТЬ АРК ФАЙЛ</button>
-        <p id="downloadCount" style="margin-top:16px;">Скачали уже <span id="downloadCounterSpan">0</span> пользователей</p>
-        <div id="downloadUrlEditor"></div>
+        <button class="btn" id="downloadBtn">📥 Скачать APK</button>
+        <p style="margin-top:16px;">Скачали уже <span id="downloadCounterSpan">0</span> раз</p>
+        <div id="downloadUrlEditor" style="margin-top:20px;"></div>
     </section>
 
     <section id="donate" class="donate-section">
-        <h2 class="editable">Поддержать RtpBox</h2>
-        <p class="editable">Спасибо за поддержку проекта!</p>
-        <div id="donateLinkContainer"><a href="#" id="donateLink" class="btn" target="_blank">❤️ ПОДДЕРЖАТЬ</a></div>
-        <div id="donateUrlEditor"></div>
+        <h2 class="editable">Поддержать проект</h2>
+        <div id="donateLinkContainer"><a href="#" id="donateLink" class="btn" target="_blank">❤️ Поддержать</a></div>
+        <div id="donateUrlEditor" style="margin-top:20px;"></div>
     </section>
 
     <footer>
-        <p>© 2026 RtpBox | Premium VPN Express</p>
+        <p>RtpBox — свобода в интернете</p>
     </footer>
 </div>
 
 <div id="adminBar" class="admin-bar">
-    <button id="toggleEditBtn" class="btn edit-mode-btn">✏️ Режим правки</button>
-    <button id="saveAllBtn" class="btn save-btn">💾 Сохранить всё</button>
-    <button id="exitAdminBtn" class="btn exit-btn">🚪 Выйти</button>
+    <button id="toggleEditBtn" class="btn btn-small">✏️ Режим правки</button>
+    <button id="saveAllBtn" class="btn btn-small">💾 Сохранить</button>
+    <button id="exitAdminBtn" class="btn btn-small">🚪 Выйти</button>
 </div>
 
-<div id="adminModal" class="admin-modal">
-    <div class="admin-card">
-        <h3>🔐 Админ-панель</h3>
+<div id="adminModal" class="modal">
+    <div class="modal-card">
+        <h3>🔐 Вход в админку</h3>
         <input type="text" id="adminLogin" placeholder="Логин" value="1">
         <input type="password" id="adminPass" placeholder="Пароль" value="1">
-        <button id="submitLogin" class="btn">Войти</button>
-        <button id="closeModal" class="btn" style="background:#444;">Закрыть</button>
+        <button id="submitLogin" class="btn" style="width:100%; margin-top:12px;">Войти</button>
+        <button id="closeModal" class="btn btn-outline" style="margin-top:8px;">Закрыть</button>
     </div>
 </div>
 
 <script>
+    // === Supabase ===
     const SUPABASE_URL = 'https://paacjtojjlwprywgjzry.supabase.co/rest/v1/';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhYWNqdG9qamx3cHJ5d2dqenJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MTcsImV4cCI6MjA5MzQ4MjYxN30.3M76ekS7MzYQskaoX9bdJqKutoZ_6OC0EOXv93Rq4WQ';
 
-    async function fetchData(table) {
-        const res = await fetch(`${SUPABASE_URL}${table}?select=*`, { headers: { 'apikey': SUPABASE_ANON_KEY } });
+    async function api(method, table, data = null, id = null) {
+        let url = `${SUPABASE_URL}${table}`;
+        if (id) url += `?id=eq.${id}`;
+        const opts = { method, headers: { 'apikey': SUPABASE_ANON_KEY, 'Content-Type': 'application/json' } };
+        if (data) opts.body = JSON.stringify(data);
+        const res = await fetch(url, opts);
         return res.json();
-    }
-    async function addData(table, data) {
-        await fetch(`${SUPABASE_URL}${table}`, { method: 'POST', headers: { 'apikey': SUPABASE_ANON_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-    }
-    async function deleteData(table, id) {
-        await fetch(`${SUPABASE_URL}${table}?id=eq.${id}`, { method: 'DELETE', headers: { 'apikey': SUPABASE_ANON_KEY } });
-    }
-    async function updateData(table, id, data) {
-        await fetch(`${SUPABASE_URL}${table}?id=eq.${id}`, { method: 'PATCH', headers: { 'apikey': SUPABASE_ANON_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
     }
 
     let isAdmin = false, editMode = false;
-    let reviews = [], teamMembers = [];
-    let settings = { download_count: 8, donate_url: '', download_url: '' };
+    let reviews = [], team = [];
+    let settings = { download_count: 0, donate_url: '', download_url: '' };
 
-    async function loadAll() {
-        try {
-            reviews = await fetchData('reviews');
-            teamMembers = await fetchData('team');
-            const s = await fetchData('settings');
-            if(s.length) settings = s[0];
-            document.getElementById('downloadCounterSpan').innerText = settings.download_count || 0;
-            if(settings.donate_url) document.getElementById('donateLink').href = settings.donate_url;
-            renderReviews();
-            renderTeam();
-            renderEditors();
-        } catch(e) { console.error(e); }
+    async function loadData() {
+        reviews = await api('GET', 'reviews');
+        team = await api('GET', 'team');
+        const s = await api('GET', 'settings');
+        if (s.length) settings = s[0];
+        document.getElementById('downloadCounterSpan').innerText = settings.download_count || 0;
+        if (settings.donate_url) document.getElementById('donateLink').href = settings.donate_url;
+        renderReviews();
+        renderTeam();
+        renderEditors();
     }
 
     function renderReviews() {
         const container = document.getElementById('reviewsContainer');
-        if(editMode && isAdmin) {
-            container.innerHTML = reviews.map(r => `<div class="review-card" data-id="${r.id}"><input class="review-name" value="${escape(r.name)}"><div class="stars">${'⭐'.repeat(r.stars||5)}</div><textarea class="review-text">${escape(r.text)}</textarea><div>Статус: <span class="status-badge status-${r.status}">${r.status==='approved'?'Одобрен':'На проверке'}</span></div><button class="approve-btn btn" data-id="${r.id}" ${r.status==='approved'?'disabled':''}>Одобрить</button><button class="delete-review-btn btn delete-btn" data-id="${r.id}">Удалить</button></div>`).join('');
-            document.querySelectorAll('.approve-btn').forEach(btn => btn.onclick = async () => { await updateData('reviews', parseInt(btn.dataset.id), { status: 'approved' }); loadAll(); });
-            document.querySelectorAll('.delete-review-btn').forEach(btn => btn.onclick = async () => { await deleteData('reviews', parseInt(btn.dataset.id)); loadAll(); });
-            document.getElementById('reviewsAddPanel').innerHTML = '<button id="addReviewBtn" class="btn add-btn">+ Добавить отзыв</button>';
-            document.getElementById('addReviewBtn')?.addEventListener('click', async () => { await addData('reviews', { name: 'Новый отзыв', stars: 5, text: 'Текст', status: 'pending' }); loadAll(); });
+        if (!container) return;
+        const approved = reviews.filter(r => r.status === 'approved');
+        if (editMode && isAdmin) {
+            container.innerHTML = reviews.map(r => `
+                <div class="card" data-id="${r.id}">
+                    <input class="review-name" value="${escape(r.name)}" style="width:100%">
+                    <div class="stars">${'⭐'.repeat(r.stars || 5)}</div>
+                    <textarea class="review-text">${escape(r.text)}</textarea>
+                    <div style="margin:8px 0"><span class="badge">${r.status === 'approved' ? '✅ Одобрен' : '⏳ На проверке'}</span></div>
+                    <button class="approve-btn btn btn-small" data-id="${r.id}" ${r.status === 'approved' ? 'disabled' : ''}>Одобрить</button>
+                    <button class="delete-review-btn btn btn-small" style="background:#e74c3c" data-id="${r.id}">Удалить</button>
+                </div>
+            `).join('');
+            document.querySelectorAll('.approve-btn').forEach(btn => btn.onclick = async () => { await api('PATCH', 'reviews', { status: 'approved' }, btn.dataset.id); loadData(); });
+            document.querySelectorAll('.delete-review-btn').forEach(btn => btn.onclick = async () => { await api('DELETE', 'reviews', null, btn.dataset.id); loadData(); });
+            document.getElementById('reviewsAddPanel').innerHTML = `<button id="addReviewBtn" class="btn">+ Добавить отзыв</button>`;
+            document.getElementById('addReviewBtn')?.addEventListener('click', async () => { await api('POST', 'reviews', { name: 'Новый отзыв', stars: 5, text: 'Текст', status: 'pending' }); loadData(); });
         } else {
-            container.innerHTML = reviews.filter(r => r.status === 'approved').map(r => `<div class="review-card"><strong>${escape(r.name)}</strong><div class="stars">${'⭐'.repeat(r.stars)}</div><p>${escape(r.text)}</p></div>`).join('');
+            container.innerHTML = approved.map(r => `<div class="card"><strong>${escape(r.name)}</strong><div class="stars">${'⭐'.repeat(r.stars)}</div><p>${escape(r.text)}</p></div>`).join('');
             document.getElementById('reviewsAddPanel').innerHTML = '';
         }
     }
 
     function renderTeam() {
         const container = document.getElementById('teamContainer');
-        if(editMode && isAdmin) {
-            container.innerHTML = teamMembers.map(m => `<div class="team-card" data-id="${m.id}"><input class="team-name" value="${escape(m.name)}"><input class="team-role" value="${escape(m.role)}"><input class="team-link" value="${escape(m.tg_link)}"><button class="delete-team-btn btn delete-btn" data-id="${m.id}">Удалить</button></div>`).join('');
-            document.querySelectorAll('.delete-team-btn').forEach(btn => btn.onclick = async () => { await deleteData('team', parseInt(btn.dataset.id)); loadAll(); });
-            document.getElementById('teamAddPanel').innerHTML = '<button id="addTeamBtn" class="btn add-btn">+ Добавить помощника</button>';
-            document.getElementById('addTeamBtn')?.addEventListener('click', async () => { await addData('team', { name: 'Новый помощник', role: 'Роль', tg_link: 'https://t.me/' }); loadAll(); });
+        if (!container) return;
+        if (editMode && isAdmin) {
+            container.innerHTML = team.map(m => `
+                <div class="card" data-id="${m.id}">
+                    <input class="team-name" value="${escape(m.name)}" style="width:100%">
+                    <input class="team-role" value="${escape(m.role)}" style="width:100%">
+                    <input class="team-link" value="${escape(m.tg_link)}" style="width:100%">
+                    <button class="delete-team-btn btn btn-small" style="background:#e74c3c; margin-top:8px" data-id="${m.id}">Удалить</button>
+                </div>
+            `).join('');
+            document.querySelectorAll('.delete-team-btn').forEach(btn => btn.onclick = async () => { await api('DELETE', 'team', null, btn.dataset.id); loadData(); });
+            document.getElementById('teamAddPanel').innerHTML = `<button id="addTeamBtn" class="btn">+ Добавить помощника</button>`;
+            document.getElementById('addTeamBtn')?.addEventListener('click', async () => { await api('POST', 'team', { name: 'Новый участник', role: 'Роль', tg_link: 'https://t.me/' }); loadData(); });
         } else {
-            container.innerHTML = teamMembers.map(m => `<div class="team-card"><h3>${escape(m.name)}</h3><p>${escape(m.role)}</p><a href="${escape(m.tg_link)}" class="btn" target="_blank">Написать →</a></div>`).join('');
+            container.innerHTML = team.map(m => `<div class="card"><strong>${escape(m.name)}</strong><p>${escape(m.role)}</p><a href="${escape(m.tg_link)}" target="_blank" class="btn btn-small">Написать →</a></div>`).join('');
             document.getElementById('teamAddPanel').innerHTML = '';
         }
     }
 
     function renderEditors() {
-        if(editMode && isAdmin) {
+        if (editMode && isAdmin) {
             const de = document.getElementById('downloadUrlEditor');
             const doe = document.getElementById('donateUrlEditor');
-            de.innerHTML = `<h4>Ссылка APK</h4><input id="downloadUrlInput" value="${escape(settings.download_url)}" style="width:100%"><button id="saveDownloadBtn" class="btn">Сохранить</button>`;
-            doe.innerHTML = `<h4>Ссылка доната</h4><input id="donateUrlInput" value="${escape(settings.donate_url)}" style="width:100%"><button id="saveDonateBtn" class="btn">Сохранить</button>`;
-            document.getElementById('saveDownloadBtn')?.addEventListener('click', async () => { await updateData('settings', 1, { download_url: document.getElementById('downloadUrlInput').value }); loadAll(); });
-            document.getElementById('saveDonateBtn')?.addEventListener('click', async () => { await updateData('settings', 1, { donate_url: document.getElementById('donateUrlInput').value }); loadAll(); });
+            de.innerHTML = `<div style="margin-top:16px;"><h4>✏️ Ссылка APK</h4><input id="downloadUrlInput" value="${escape(settings.download_url)}" style="width:100%"><button id="saveDownloadBtn" class="btn btn-small">Сохранить</button></div>`;
+            doe.innerHTML = `<div style="margin-top:16px;"><h4>✏️ Ссылка доната</h4><input id="donateUrlInput" value="${escape(settings.donate_url)}" style="width:100%"><button id="saveDonateBtn" class="btn btn-small">Сохранить</button></div>`;
+            document.getElementById('saveDownloadBtn')?.addEventListener('click', async () => { await api('PATCH', 'settings', { download_url: document.getElementById('downloadUrlInput').value }, 1); loadData(); });
+            document.getElementById('saveDonateBtn')?.addEventListener('click', async () => { await api('PATCH', 'settings', { donate_url: document.getElementById('donateUrlInput').value }, 1); loadData(); });
+        } else {
+            document.getElementById('downloadUrlEditor').innerHTML = '';
+            document.getElementById('donateUrlEditor').innerHTML = '';
         }
     }
 
-    function escape(str) { return str?.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;') || ''; }
+    function escape(str) { return str?.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') || ''; }
 
-    document.getElementById('downloadBtn').onclick = async () => { await updateData('settings', 1, { download_count: (settings.download_count||0)+1 }); loadAll(); alert('Скачивание началось'); };
+    document.getElementById('downloadBtn').onclick = async () => { await api('PATCH', 'settings', { download_count: (settings.download_count || 0) + 1 }, 1); loadData(); alert('Скачивание началось'); };
 
-    document.getElementById('submitLogin').onclick = () => { if(document.getElementById('adminLogin').value==='1' && document.getElementById('adminPass').value==='1') { isAdmin=true; localStorage.setItem('rtp_admin','true'); document.getElementById('adminModal').classList.remove('active'); document.getElementById('adminBar').classList.add('active'); alert('Админ-режим'); loadAll(); } else alert('Неверно'); };
+    // Admin logic
+    document.getElementById('submitLogin').onclick = () => {
+        if (document.getElementById('adminLogin').value === '1' && document.getElementById('adminPass').value === '1') {
+            isAdmin = true;
+            localStorage.setItem('rtp_admin', 'true');
+            document.getElementById('adminModal').classList.remove('active');
+            document.getElementById('adminBar').classList.add('active');
+            loadData();
+        } else alert('Неверный логин или пароль');
+    };
     document.getElementById('closeModal').onclick = () => document.getElementById('adminModal').classList.remove('active');
-    document.getElementById('exitAdminBtn').onclick = () => { isAdmin=false; editMode=false; localStorage.removeItem('rtp_admin'); document.getElementById('adminBar').classList.remove('active'); location.reload(); };
-    let clickCount=0; document.getElementById('secretLogo').onclick = () => { clickCount++; setTimeout(()=>clickCount=0,1000); if(clickCount===5) { clickCount=0; if(localStorage.getItem('rtp_admin')==='true') { isAdmin=true; document.getElementById('adminBar').classList.add('active'); loadAll(); } else document.getElementById('adminModal').classList.add('active'); } };
-    document.getElementById('toggleEditBtn').onclick = () => { editMode=!editMode; document.querySelectorAll('.editable').forEach(el=>{ el.contentEditable=editMode; el.style.backgroundColor=editMode?'rgba(108,92,231,0.2)':''; }); renderReviews(); renderTeam(); renderEditors(); };
-    document.getElementById('saveAllBtn').onclick = () => alert('Данные уже в Supabase');
-    document.querySelectorAll('.nav-links a').forEach(link=>link.onclick=()=>{ const el=document.getElementById(link.getAttribute('data-section')); if(el) el.scrollIntoView({behavior:'smooth'}); });
-    loadAll();
-    if(localStorage.getItem('rtp_admin')==='true') { isAdmin=true; document.getElementById('adminBar').classList.add('active'); loadAll(); }
+    document.getElementById('exitAdminBtn').onclick = () => { isAdmin = false; editMode = false; localStorage.removeItem('rtp_admin'); document.getElementById('adminBar').classList.remove('active'); location.reload(); };
+    let clickCount = 0;
+    document.getElementById('secretLogo').onclick = () => { clickCount++; setTimeout(() => clickCount = 0, 800); if (clickCount === 5) { clickCount = 0; if (localStorage.getItem('rtp_admin') === 'true') { isAdmin = true; document.getElementById('adminBar').classList.add('active'); loadData(); } else document.getElementById('adminModal').classList.add('active'); } };
+    document.getElementById('toggleEditBtn').onclick = () => { editMode = !editMode; document.querySelectorAll('.editable').forEach(el => { el.contentEditable = editMode; el.style.backgroundColor = editMode ? 'rgba(108,92,231,0.1)' : ''; }); renderReviews(); renderTeam(); renderEditors(); };
+    document.getElementById('saveAllBtn').onclick = () => alert('Сохранено в Supabase');
+    document.querySelectorAll('.nav a').forEach(link => link.onclick = () => { const el = document.getElementById(link.getAttribute('data-section')); if (el) el.scrollIntoView({ behavior: 'smooth' }); });
+    loadData();
+    if (localStorage.getItem('rtp_admin') === 'true') { isAdmin = true; document.getElementById('adminBar').classList.add('active'); loadData(); }
 </script>
 </body>
 </html>
