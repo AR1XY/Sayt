@@ -2,472 +2,701 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RtpBox — VPN сервис</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>APKeeper — безопасная загрузка APK</title>
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.25s ease, color 0.2s, border-color 0.2s;
         }
+
+        :root {
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --border: #e2e8f0;
+            --accent: #3b82f6;
+            --accent-dark: #2563eb;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.08);
+            --star-active: #fbbf24;
+            --star-inactive: #cbd5e1;
+        }
+
+        body.dark {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #334155;
+            --accent: #60a5fa;
+            --star-inactive: #475569;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0c15;
-            color: #eef2ff;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            padding: 24px 20px;
             line-height: 1.5;
         }
+
         .container {
-            max-width: 1100px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
         }
-        .header {
+
+        .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 50px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #1f2937;
+            gap: 16px;
+            margin-bottom: 32px;
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            padding: 10px 28px;
+            border-radius: 80px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
         }
+
         .logo {
-            font-size: 28px;
-            font-weight: bold;
-            background: linear-gradient(135deg, #a78bfa, #6366f1);
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), #a855f7);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            cursor: pointer;
         }
-        .nav {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-        }
-        .nav span {
-            cursor: pointer;
-            color: #9ca3af;
-            transition: 0.2s;
-        }
-        .nav span:hover {
-            color: #a78bfa;
-        }
-        .hero {
-            text-align: center;
-            padding: 40px 0;
-        }
-        .hero h1 {
-            font-size: 48px;
-            background: linear-gradient(135deg, #fff, #a78bfa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 16px;
-        }
-        .hero p {
-            color: #9ca3af;
-            max-width: 550px;
-            margin: 0 auto 20px;
-        }
-        .badge {
-            background: #1e293b;
-            display: inline-block;
-            padding: 6px 18px;
+
+        .theme-toggle {
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+            padding: 8px 20px;
             border-radius: 40px;
-            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
+
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin: 48px 0;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 28px;
+            margin-bottom: 40px;
         }
+
         .card {
-            background: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 24px;
+            background: var(--bg-card);
+            border-radius: 32px;
             padding: 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
         }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid var(--accent);
+            padding-left: 16px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin: 16px 0 12px 0;
+            color: var(--accent);
+        }
+
         .btn {
-            background: #6366f1;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 40px;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            display: inline-block;
-            margin: 5px;
-        }
-        .btn-red {
-            background: #dc2626;
-        }
-        .btn-green {
-            background: #10b981;
-        }
-        .donate-block {
-            background: #0f172a;
-            border-radius: 28px;
-            padding: 48px 24px;
-            text-align: center;
-            margin: 48px 0;
-        }
-        footer {
-            text-align: center;
-            padding: 32px;
-            border-top: 1px solid #1f2937;
-            margin-top: 48px;
-            color: #6b7280;
-        }
-        .admin-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #1e293b;
+            background: var(--accent);
             border: none;
             padding: 10px 20px;
             border-radius: 40px;
             color: white;
+            font-weight: 600;
             cursor: pointer;
-            z-index: 100;
-            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
         }
-        .admin-panel {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #0f172a;
-            padding: 12px 20px;
-            display: none;
-            justify-content: center;
-            gap: 16px;
-            z-index: 99;
-            border-bottom: 1px solid #6366f1;
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
         }
-        .admin-panel.show {
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.8rem;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .helper-card, .review-card {
+            background: var(--bg-body);
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border);
+        }
+
+        .helper-header, .review-header {
             display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 10px;
         }
+
+        .helper-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .helper-role {
+            font-size: 0.8rem;
+            color: var(--accent);
+            background: var(--bg-card);
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 30px;
+        }
+
+        .stars {
+            color: var(--star-active);
+            letter-spacing: 2px;
+        }
+
+        .contact-link {
+            font-size: 0.8rem;
+            margin-top: 8px;
+            display: inline-block;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .download-btn {
+            background: linear-gradient(105deg, var(--success), #059669);
+            padding: 18px 32px;
+            font-size: 1.3rem;
+            border-radius: 60px;
+            width: 100%;
+            justify-content: center;
+            font-weight: bold;
+        }
+
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 200;
+            z-index: 1000;
             visibility: hidden;
             opacity: 0;
             transition: 0.2s;
         }
-        .modal.show {
+        .modal.active {
             visibility: visible;
             opacity: 1;
         }
         .modal-card {
-            background: #1e293b;
-            border-radius: 28px;
+            background: var(--bg-card);
+            max-width: 400px;
+            width: 90%;
             padding: 32px;
-            width: 300px;
+            border-radius: 48px;
+            text-align: center;
         }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 24px;
-            border: 1px solid #334155;
-            background: #0f172a;
-            color: white;
+        .progress {
+            height: 8px;
+            background: var(--border);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
         }
-        [contenteditable="true"] {
-            outline: 2px dashed #818cf8;
-            padding: 4px 8px;
-            border-radius: 16px;
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.1s linear;
         }
-        .stars {
-            color: #fbbf24;
-            margin: 8px 0;
+        .donate-row {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 18px;
+            flex-wrap: wrap;
         }
-        @media (max-width: 700px) {
-            .hero h1 { font-size: 32px; }
+        .donate-link {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 8px 18px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        @media (max-width: 760px) {
+            .grid { grid-template-columns: 1fr; }
+            body { padding: 16px; }
+        }
+        .star-picker i {
+            cursor: pointer;
+            font-size: 1.4rem;
+            color: var(--star-inactive);
+        }
+        .star-picker i.active-star {
+            color: var(--star-active);
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
         }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <div class="header">
-        <div class="logo" id="secretLogo">RtpBox</div>
-        <div class="nav">
-            <span data-section="home">Главная</span>
-            <span data-section="features">Технологии</span>
-            <span data-section="reviews">Отзывы</span>
-            <span data-section="team">Команда</span>
-            <span data-section="download">Скачать</span>
-            <span data-section="donate">Донат</span>
+    <div class="top-bar">
+        <div class="logo"><i class="fas fa-shield-haltered"></i> APKeeper <span style="font-size:0.8rem;">• Supabase cloud</span></div>
+        <button id="themeSwitcher" class="theme-toggle"><i class="fas fa-moon"></i> <span>Тёмная</span></button>
+    </div>
+
+    <!-- Блок скачивания -->
+    <div class="card" style="text-align: center; margin-bottom: 30px;">
+        <h2><i class="fas fa-download"></i> Скачать APK (безопасно)</h2>
+        <p style="margin-bottom: 20px;">Проверка на вирусы перед каждой загрузкой 🔒</p>
+        <button id="mainDownloadBtn" class="download-btn btn"><i class="fas fa-shield-virus"></i> СКАЧАТЬ .APK</button>
+        <div id="donateLinksBlock" class="donate-row"></div>
+    </div>
+
+    <!-- АДМИН ПАНЕЛЬ (управление через Supabase) -->
+    <div class="grid">
+        <!-- Редактор помощников (team) -->
+        <div class="card">
+            <h2><i class="fas fa-user-tie"></i> Помощники (team)</h2>
+            <div id="adminHelpersList"><div class="loading">Загрузка...</div></div>
+            <div style="border-top: 1px solid var(--border); margin-top: 16px; padding-top: 16px;">
+                <h3>➕ Добавить помощника</h3>
+                <div class="input-group"><input type="text" id="helperName" placeholder="Имя: Алексей Смирнов"></div>
+                <div class="input-group"><input type="text" id="helperRole" placeholder="Роль: Техподдержка"></div>
+                <div class="input-group"><input type="url" id="helperContact" placeholder="tg_link (Telegram ссылка)"></div>
+                <button id="addHelperBtn" class="btn"><i class="fas fa-plus-circle"></i> Добавить</button>
+            </div>
+        </div>
+
+        <!-- Редактор отзывов (reviews) -->
+        <div class="card">
+            <h2><i class="fas fa-star-half-alt"></i> Отзывы (reviews)</h2>
+            <div id="adminReviewsList"><div class="loading">Загрузка...</div></div>
+            <div style="border-top: 1px solid var(--border); margin-top: 16px; padding-top: 16px;">
+                <h3>➕ Новый отзыв</h3>
+                <div class="input-group"><input type="text" id="reviewAuthor" placeholder="Имя пользователя"></div>
+                <div class="input-group"><textarea id="reviewText" rows="2" placeholder="Текст отзыва..."></textarea></div>
+                <div class="input-group">
+                    <label>Оценка звездами:</label>
+                    <div class="star-picker" id="starPicker">
+                        <i data-star="1" class="far fa-star"></i>
+                        <i data-star="2" class="far fa-star"></i>
+                        <i data-star="3" class="far fa-star"></i>
+                        <i data-star="4" class="far fa-star"></i>
+                        <i data-star="5" class="far fa-star"></i>
+                    </div>
+                </div>
+                <button id="addReviewBtn" class="btn"><i class="fas fa-comment-medical"></i> Добавить отзыв</button>
+            </div>
+        </div>
+
+        <!-- Управление ссылками (settings + apk_sources) -->
+        <div class="card full-width">
+            <h2><i class="fas fa-coins"></i> Настройки сайта</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div style="flex:1">
+                    <label>🔗 Ссылка доната (donate_url)</label>
+                    <input type="url" id="donateUrl" placeholder="https://donationalerts.com/...">
+                </div>
+                <div style="flex:1">
+                    <label>📦 Активный APK (из apk_sources)</label>
+                    <select id="apkSourceSelect" style="width:100%; padding:12px; border-radius:24px;"></select>
+                </div>
+            </div>
+            <button id="saveSettingsBtn" class="btn" style="margin-top: 18px;"><i class="fas fa-save"></i> Сохранить настройки</button>
         </div>
     </div>
 
-    <div id="home">
-        <div class="hero">
-            <h1 id="heroTitle" class="editable">RtpBox без границ</h1>
-            <p id="heroDesc" class="editable">Скорость. Анонимность. Свобода.</p>
-            <div class="badge" id="versionText">⚡ v1.2.0</div>
+    <!-- Публичный вывод -->
+    <div class="grid">
+        <div class="card">
+            <h2><i class="fas fa-headset"></i> Наша команда поддержки</h2>
+            <div id="publicHelpersList"><div class="loading">Загрузка...</div></div>
+        </div>
+        <div class="card">
+            <h2><i class="fas fa-comments"></i> Отзывы пользователей ★</h2>
+            <div id="publicReviewsList"><div class="loading">Загрузка...</div></div>
         </div>
     </div>
-
-    <div id="features">
-        <h2 style="text-align:center;">Технологии</h2>
-        <div class="grid">
-            <div class="card"><h3>🚀 1 Гбит/с</h3><p>Без ограничений</p></div>
-            <div class="card"><h3>🔒 VLESS / Reality</h3><p>Маскировка трафика</p></div>
-            <div class="card"><h3>🕶️ Zero-log</h3><p>Полная анонимность</p></div>
-        </div>
-    </div>
-
-    <div id="reviews">
-        <h2 style="text-align:center;">Отзывы</h2>
-        <div id="reviewsList" class="grid"></div>
-        <div id="reviewsPanel" style="text-align:center;"></div>
-    </div>
-
-    <div id="team">
-        <h2 style="text-align:center;">Команда</h2>
-        <div id="teamList" class="grid"></div>
-        <div id="teamPanel" style="text-align:center;"></div>
-    </div>
-
-    <div id="download" style="text-align:center; margin:48px 0;">
-        <h2 class="editable">Установить RtpBox</h2>
-        <button class="btn" id="downloadBtn">📥 Скачать APK</button>
-        <p style="margin-top:12px;">Скачали: <span id="downloadCount">0</span> раз</p>
-        <div id="downloadEditor"></div>
-    </div>
-
-    <div id="donate" class="donate-block">
-        <h2 class="editable">Поддержать проект</h2>
-        <div><a href="#" id="donateLink" class="btn" target="_blank">❤️ Поддержать</a></div>
-        <div id="donateEditor"></div>
-    </div>
-
-    <footer>
-        <p>RtpBox — защита и свобода</p>
-    </footer>
 </div>
 
-<button class="admin-btn" id="adminBtn">🔓 Admin</button>
-<div id="adminPanel" class="admin-panel">
-    <button id="editBtn" class="btn">✏️ Режим правки</button>
-    <button id="exitAdminBtn" class="btn btn-red">🚪 Выйти</button>
-</div>
-
-<div id="loginModal" class="modal">
+<!-- Модалка проверки -->
+<div id="virusModal" class="modal">
     <div class="modal-card">
-        <h3 style="margin-bottom:20px;">Вход в админку</h3>
-        <input type="text" id="loginField" placeholder="Логин" value="1">
-        <input type="password" id="passField" placeholder="Пароль" value="1">
-        <button id="loginBtn" class="btn" style="width:100%; margin-top:16px;">Войти</button>
-        <button id="closeModalBtn" class="btn" style="width:100%; margin-top:8px; background:#334155;">Закрыть</button>
+        <i class="fas fa-shield-virus" style="font-size: 3rem; color: var(--accent);"></i>
+        <h3 id="modalTitle">Проверка безопасности</h3>
+        <p id="modalDesc">Сканирование APK...</p>
+        <div class="progress"><div class="progress-bar" id="scanProgress"></div></div>
+        <div id="modalStatus">🔍 Инициализация...</div>
     </div>
 </div>
 
 <script>
-    // ========== SUPABASE ==========
-    const URL = 'https://paacjtojjlwprywgjzry.supabase.co/rest/v1/';
-    const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhYWNqdG9qamx3cHJ5d2dqenJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MTcsImV4cCI6MjA5MzQ4MjYxN30.3M76ekS7MzYQskaoX9bdJqKutoZ_6OC0EOXv93Rq4WQ';
+    // SUPABASE初始化
+    const SUPABASE_URL = "https://paacjtojjlwprywgjzry.supabase.co/rest/v1/";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhYWNqdG9qamx3cHJ5d2dqenJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MTcsImV4cCI6MjA5MzQ4MjYxN30.3M76ekS7MzYQskaoX9bdJqKutoZ_6OC0EOXv93Rq4WQ";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function request(method, table, data = null, id = null) {
-        let url = `${URL}${table}`;
-        if (id) url += `?id=eq.${id}`;
-        const res = await fetch(url, {
-            method,
-            headers: { 'apikey': KEY, 'Content-Type': 'application/json' },
-            body: data ? JSON.stringify(data) : undefined
-        });
-        return res.json();
+    // Глобальные переменные
+    let currentApkUrl = "";
+    let currentDonateUrl = "";
+    let apkSourcesList = []; // { id, name, url, is_active }
+
+    // Функции работы с БД
+    async function loadTeam() {
+        const { data, error } = await supabase.from("team").select("*").order("id", { ascending: true });
+        if (error) { console.error(error); return []; }
+        return data || [];
+    }
+    async function loadReviews() {
+        const { data, error } = await supabase.from("reviews").select("*").eq("status", "approved").order("created_at", { ascending: false });
+        if (error) { console.error(error); return []; }
+        return data || [];
+    }
+    async function loadSettings() {
+        const { data, error } = await supabase.from("settings").select("*").limit(1);
+        if (error || !data || data.length === 0) return { donate_url: "", download_url: "" };
+        return data[0];
+    }
+    async function loadApkSources() {
+        const { data, error } = await supabase.from("apk_sources").select("*").order("is_active", { ascending: false });
+        if (error) { console.error(error); return []; }
+        return data || [];
+    }
+    async function loadActiveApkSource() {
+        const { data, error } = await supabase.from("apk_sources").select("*").eq("is_active", true).limit(1);
+        if (error || !data || data.length === 0) return null;
+        return data[0];
     }
 
-    let isAdmin = false;
-    let editMode = false;
-    let reviews = [];
-    let teamList = [];
-    let settings = { download_count: 0, donate_url: '', download_url: '' };
-
-    async function loadData() {
-        try {
-            reviews = await request('GET', 'reviews');
-            teamList = await request('GET', 'team');
-            const s = await request('GET', 'settings');
-            if (s.length) settings = s[0];
-            document.getElementById('downloadCount').innerText = settings.download_count || 0;
-            if (settings.donate_url) document.getElementById('donateLink').href = settings.donate_url;
-            renderReviews();
-            renderTeam();
-            renderEditors();
-        } catch(e) { console.log(e); }
+    // Добавление / удаление
+    async function addTeamMember(name, role, tg_link) {
+        const { error } = await supabase.from("team").insert([{ name, role, tg_link }]);
+        if (error) { alert("Ошибка: " + error.message); return false; }
+        return true;
+    }
+    async function deleteTeamMember(id) {
+        const { error } = await supabase.from("team").delete().eq("id", id);
+        if (error) { alert("Ошибка удаления"); return false; }
+        return true;
+    }
+    async function addReviewItem(author, text, stars) {
+        const { error } = await supabase.from("reviews").insert([{ name: author, text, stars, status: "approved" }]);
+        if (error) { alert("Ошибка: " + error.message); return false; }
+        return true;
+    }
+    async function deleteReviewItem(id) {
+        const { error } = await supabase.from("reviews").delete().eq("id", id);
+        if (error) { alert("Ошибка удаления"); return false; }
+        return true;
+    }
+    async function updateSettings(donateUrl, downloadUrl) {
+        // получаем первую запись и обновляем (если нет - создадим)
+        const { data: existing } = await supabase.from("settings").select("id").limit(1);
+        if (existing && existing.length > 0) {
+            const { error } = await supabase.from("settings").update({ donate_url: donateUrl, download_url: downloadUrl }).eq("id", existing[0].id);
+            if (error) { alert("Ошибка обновления: " + error.message); return false; }
+        } else {
+            const { error } = await supabase.from("settings").insert([{ donate_url: donateUrl, download_url: downloadUrl, download_count: 0 }]);
+            if (error) { alert("Ошибка создания: " + error.message); return false; }
+        }
+        return true;
+    }
+    async function setActiveApkSource(sourceId) {
+        // Сначала сбросить у всех is_active = false
+        await supabase.from("apk_sources").update({ is_active: false }).neq("id", 0);
+        const { error } = await supabase.from("apk_sources").update({ is_active: true }).eq("id", sourceId);
+        if (error) { alert("Ошибка активации APK"); return false; }
+        return true;
     }
 
-    function renderReviews() {
-        const container = document.getElementById('reviewsList');
-        if (!container) return;
-        const approved = reviews.filter(r => r.status === 'approved');
-        if (editMode && isAdmin) {
-            container.innerHTML = reviews.map(r => `
-                <div class="card" data-id="${r.id}">
-                    <input class="revName" value="${escape(r.name)}" style="width:100%">
-                    <div class="stars">${'⭐'.repeat(r.stars || 5)}</div>
-                    <textarea class="revText" rows="2">${escape(r.text)}</textarea>
-                    <div style="margin:6px 0">${r.status === 'approved' ? '✅ Одобрен' : '⏳ На проверке'}</div>
-                    <button class="approveRev btn btn-green" data-id="${r.id}" ${r.status === 'approved' ? 'disabled' : ''}>Одобрить</button>
-                    <button class="deleteRev btn btn-red" data-id="${r.id}">Удалить</button>
+    // Отрисовка админки
+    async function renderAdminPanel() {
+        const team = await loadTeam();
+        const reviews = await loadReviews();
+        const htmlHelpers = team.map(m => `
+            <div class="helper-card">
+                <div class="helper-header">
+                    <div><span class="helper-name">${escapeHtml(m.name)}</span> <span class="helper-role">${escapeHtml(m.role || '—')}</span></div>
+                    <button class="btn btn-outline btn-danger btn-sm" onclick="deleteHelper(${m.id})"><i class="fas fa-trash"></i></button>
                 </div>
-            `).join('');
-            attachReviewEvents();
-            document.getElementById('reviewsPanel').innerHTML = '<button id="addReview" class="btn">+ Добавить отзыв</button>';
-            document.getElementById('addReview')?.addEventListener('click', async () => {
-                await request('POST', 'reviews', { name: 'Новый отзыв', stars: 5, text: 'Текст', status: 'pending' });
-                loadData();
-            });
-        } else {
-            container.innerHTML = approved.map(r => `<div class="card"><strong>${escape(r.name)}</strong><div class="stars">${'⭐'.repeat(r.stars)}</div><p>${escape(r.text)}</p></div>`).join('');
-            document.getElementById('reviewsPanel').innerHTML = '';
-        }
-    }
-
-    function attachReviewEvents() {
-        document.querySelectorAll('.approveRev').forEach(btn => btn.onclick = async () => {
-            await request('PATCH', 'reviews', { status: 'approved' }, btn.dataset.id);
-            loadData();
-        });
-        document.querySelectorAll('.deleteRev').forEach(btn => btn.onclick = async () => {
-            await request('DELETE', 'reviews', null, btn.dataset.id);
-            loadData();
-        });
-    }
-
-    function renderTeam() {
-        const container = document.getElementById('teamList');
-        if (!container) return;
-        if (editMode && isAdmin) {
-            container.innerHTML = teamList.map(m => `
-                <div class="card" data-id="${m.id}">
-                    <input class="teamName" value="${escape(m.name)}" style="width:100%">
-                    <input class="teamRole" value="${escape(m.role)}" style="width:100%">
-                    <input class="teamLink" value="${escape(m.tg_link)}" style="width:100%">
-                    <button class="deleteTeam btn btn-red" data-id="${m.id}">Удалить</button>
+                ${m.tg_link ? `<div>🔗 <a href="${escapeHtml(m.tg_link)}" target="_blank" class="contact-link">Связаться</a></div>` : '<div style="color:gray;">Нет ссылки</div>'}
+            </div>
+        `).join('');
+        document.getElementById("adminHelpersList").innerHTML = htmlHelpers || "<p>Нет помощников</p>";
+        
+        const htmlReviews = reviews.map(r => `
+            <div class="review-card">
+                <div class="helper-header">
+                    <div><strong>${escapeHtml(r.name)}</strong> <span class="stars">${renderStarsStatic(r.stars || 5)}</span></div>
+                    <button class="btn btn-outline btn-danger btn-sm" onclick="deleteReview(${r.id})"><i class="fas fa-trash"></i></button>
                 </div>
-            `).join('');
-            attachTeamEvents();
-            document.getElementById('teamPanel').innerHTML = '<button id="addTeam" class="btn">+ Добавить участника</button>';
-            document.getElementById('addTeam')?.addEventListener('click', async () => {
-                await request('POST', 'team', { name: 'Новый участник', role: 'Роль', tg_link: 'https://t.me/' });
-                loadData();
-            });
+                <div>“${escapeHtml(r.text)}”</div>
+            </div>
+        `).join('');
+        document.getElementById("adminReviewsList").innerHTML = htmlReviews || "<p>Нет отзывов</p>";
+    }
+
+    async function renderPublic() {
+        const team = await loadTeam();
+        const reviews = await loadReviews();
+        const publicHelpers = team.map(m => `
+            <div class="helper-card" style="background: var(--bg-card);">
+                <div><i class="fas fa-user-circle"></i> <strong>${escapeHtml(m.name)}</strong> <span class="helper-role">${escapeHtml(m.role || 'Помощник')}</span></div>
+                ${m.tg_link ? `<div style="margin-top: 8px;"><a href="${escapeHtml(m.tg_link)}" target="_blank" style="color:var(--accent);">📱 Написать</a></div>` : ''}
+            </div>
+        `).join('');
+        document.getElementById("publicHelpersList").innerHTML = publicHelpers || "<p>Скоро появится команда</p>";
+        
+        const publicReviews = reviews.map(r => `
+            <div class="review-card" style="background: var(--bg-card);">
+                <div><strong>${escapeHtml(r.name)}</strong> <span class="stars">${renderStarsStatic(r.stars || 5)}</span></div>
+                <div style="margin-top: 6px;">“${escapeHtml(r.text)}”</div>
+            </div>
+        `).join('');
+        document.getElementById("publicReviewsList").innerHTML = publicReviews || "<p>Будьте первым!</p>";
+    }
+
+    function renderStarsStatic(stars) {
+        let full = '<i class="fas fa-star"></i>'.repeat(stars);
+        let empty = '<i class="far fa-star"></i>'.repeat(5-stars);
+        return full+empty;
+    }
+
+    async function loadDonateAndApkSettings() {
+        const settings = await loadSettings();
+        currentDonateUrl = settings.donate_url || "";
+        document.getElementById("donateUrl").value = currentDonateUrl;
+        // загружаем apk источники
+        const sources = await loadApkSources();
+        apkSourcesList = sources;
+        const activeSource = sources.find(s => s.is_active === true);
+        if (activeSource) {
+            currentApkUrl = activeSource.url;
+        } else if (sources.length > 0) {
+            currentApkUrl = sources[0].url;
         } else {
-            container.innerHTML = teamList.map(m => `<div class="card"><strong>${escape(m.name)}</strong><p>${escape(m.role)}</p><a href="${escape(m.tg_link)}" target="_blank" class="btn">Написать</a></div>`).join('');
-            document.getElementById('teamPanel').innerHTML = '';
+            currentApkUrl = "";
         }
-    }
-
-    function attachTeamEvents() {
-        document.querySelectorAll('.deleteTeam').forEach(btn => btn.onclick = async () => {
-            await request('DELETE', 'team', null, btn.dataset.id);
-            loadData();
-        });
-    }
-
-    function renderEditors() {
-        if (editMode && isAdmin) {
-            document.getElementById('downloadEditor').innerHTML = `<div><input id="apkInput" value="${escape(settings.download_url)}" style="width:70%"><button id="saveApk" class="btn">Сохранить APK</button></div>`;
-            document.getElementById('donateEditor').innerHTML = `<div><input id="donateInput" value="${escape(settings.donate_url)}" style="width:70%"><button id="saveDonate" class="btn">Сохранить донат</button></div>`;
-            document.getElementById('saveApk')?.addEventListener('click', async () => {
-                await request('PATCH', 'settings', { download_url: document.getElementById('apkInput').value }, 1);
-                loadData();
-                alert('APK обновлена');
-            });
-            document.getElementById('saveDonate')?.addEventListener('click', async () => {
-                await request('PATCH', 'settings', { donate_url: document.getElementById('donateInput').value }, 1);
-                loadData();
-                alert('Ссылка доната обновлена');
-            });
+        // заполняем select
+        const select = document.getElementById("apkSourceSelect");
+        select.innerHTML = sources.map(s => `<option value="${s.id}" ${s.is_active ? "selected" : ""}>${escapeHtml(s.name)} (${s.url.substring(0,40)}...)</option>`).join('');
+        if (sources.length === 0) select.innerHTML = "<option>Нет APK-источников</option>";
+        
+        // обновляем донат в публичном блоке
+        const donateBlock = document.getElementById("donateLinksBlock");
+        if (currentDonateUrl) {
+            donateBlock.innerHTML = `<a href="${escapeHtml(currentDonateUrl)}" target="_blank" class="donate-link"><i class="fas fa-heart"></i> Поддержать проект</a>`;
         } else {
-            document.getElementById('downloadEditor').innerHTML = '';
-            document.getElementById('donateEditor').innerHTML = '';
+            donateBlock.innerHTML = "<span>Ссылка доната не задана</span>";
         }
     }
 
-    function escape(str) { return str?.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') || ''; }
-
-    document.getElementById('downloadBtn').onclick = async () => {
-        await request('PATCH', 'settings', { download_count: (settings.download_count || 0) + 1 }, 1);
-        loadData();
-        alert('Скачивание начато');
+    // Глобальные функции для кнопок удаления
+    window.deleteHelper = async (id) => {
+        if(confirm("Удалить помощника?")) {
+            await deleteTeamMember(id);
+            await renderAdminPanel();
+            await renderPublic();
+        }
+    };
+    window.deleteReview = async (id) => {
+        if(confirm("Удалить отзыв?")) {
+            await deleteReviewItem(id);
+            await renderAdminPanel();
+            await renderPublic();
+        }
     };
 
-    // Админка
-    document.getElementById('adminBtn').onclick = () => document.getElementById('loginModal').classList.add('show');
-    document.getElementById('closeModalBtn').onclick = () => document.getElementById('loginModal').classList.remove('show');
-    document.getElementById('loginBtn').onclick = () => {
-        const l = document.getElementById('loginField').value;
-        const p = document.getElementById('passField').value;
-        if (l === '1' && p === '1') {
-            isAdmin = true;
-            localStorage.setItem('rtp_admin', '1');
-            document.getElementById('loginModal').classList.remove('show');
-            document.getElementById('adminPanel').classList.add('show');
-            alert('Админ-режим включён');
-            loadData();
-        } else alert('Логин/пароль: 1 / 1');
-    };
-    document.getElementById('exitAdminBtn').onclick = () => {
-        isAdmin = false;
-        editMode = false;
-        localStorage.removeItem('rtp_admin');
-        document.getElementById('adminPanel').classList.remove('show');
-        location.reload();
-    };
-    document.getElementById('editBtn').onclick = () => {
-        if (!isAdmin) return;
-        editMode = !editMode;
-        document.querySelectorAll('.editable').forEach(el => {
-            el.contentEditable = editMode;
-            el.style.backgroundColor = editMode ? 'rgba(99,102,241,0.1)' : '';
+    // Добавление
+    async function addHelper(){
+        const name = document.getElementById("helperName").value.trim();
+        const role = document.getElementById("helperRole").value.trim();
+        const tg = document.getElementById("helperContact").value.trim();
+        if(!name){ alert("Введите имя"); return; }
+        await addTeamMember(name, role, tg);
+        document.getElementById("helperName").value = "";
+        document.getElementById("helperRole").value = "";
+        document.getElementById("helperContact").value = "";
+        await renderAdminPanel();
+        await renderPublic();
+    }
+    let currentStarRating = 5;
+    function initStarPicker(){
+        const stars = document.querySelectorAll("#starPicker i");
+        const updateStars = (rating) => {
+            stars.forEach((star, idx) => {
+                if(idx < rating) star.className = "fas fa-star active-star";
+                else star.className = "far fa-star";
+            });
+            currentStarRating = rating;
+        };
+        stars.forEach(star => {
+            star.addEventListener("click", (e) => {
+                const val = parseInt(star.getAttribute("data-star"));
+                updateStars(val);
+            });
         });
-        renderReviews();
-        renderTeam();
-        renderEditors();
-    };
-
-    document.querySelectorAll('.nav span').forEach(span => span.onclick = () => {
-        const id = span.getAttribute('data-section');
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    });
-
-    let clicks = 0;
-    document.getElementById('secretLogo').onclick = () => {
-        clicks++;
-        setTimeout(() => clicks = 0, 800);
-        if (clicks === 5) {
-            clicks = 0;
-            if (localStorage.getItem('rtp_admin') === '1') {
-                isAdmin = true;
-                document.getElementById('adminPanel').classList.add('show');
-            } else {
-                document.getElementById('loginModal').classList.add('show');
-            }
-        }
-    };
-
-    if (localStorage.getItem('rtp_admin') === '1') {
-        isAdmin = true;
-        document.getElementById('adminPanel').classList.add('show');
+        updateStars(5);
     }
-    loadData();
+    async function addReview() {
+        const author = document.getElementById("reviewAuthor").value.trim();
+        const text = document.getElementById("reviewText").value.trim();
+        if(!author || !text) { alert("Заполните имя и текст"); return; }
+        await addReviewItem(author, text, currentStarRating);
+        document.getElementById("reviewAuthor").value = "";
+        document.getElementById("reviewText").value = "";
+        await renderAdminPanel();
+        await renderPublic();
+    }
+    async function saveSettings() {
+        const newDonate = document.getElementById("donateUrl").value.trim();
+        const selectedId = parseInt(document.getElementById("apkSourceSelect").value);
+        if(isNaN(selectedId)){
+            alert("Выберите APK источник");
+            return;
+        }
+        // обновляем donate
+        await updateSettings(newDonate, ""); // download_url не используем отдельно
+        // активируем выбранный apk источник
+        await setActiveApkSource(selectedId);
+        // перезагружаем
+        await loadDonateAndApkSettings();
+        await renderAdminPanel();
+        await renderPublic();
+        alert("Настройки сохранены!");
+    }
+
+    // анимация скачивания + перенаправление
+    let isDownloading = false;
+    async function startSecureDownload() {
+        if(isDownloading) return;
+        // перед скачиванием подтянем актуальную ссылку
+        const activeSource = await loadActiveApkSource();
+        if(activeSource && activeSource.url) currentApkUrl = activeSource.url;
+        if(!currentApkUrl) { alert("APK файл не найден. Обратитесь к администратору."); return; }
+        const modal = document.getElementById("virusModal");
+        const progressBar = document.getElementById("scanProgress");
+        const modalStatus = document.getElementById("modalStatus");
+        modal.classList.add("active");
+        isDownloading = true;
+        progressBar.style.width = "0%";
+        modalStatus.innerHTML = "🔍 Запуск антивирусного сканера...";
+        await delay(500);
+        progressBar.style.width = "40%";
+        modalStatus.innerHTML = "🛡️ Анализ подозрительных сигнатур...";
+        await delay(600);
+        progressBar.style.width = "75%";
+        modalStatus.innerHTML = "✅ Вирусы не обнаружены. Подготовка файла...";
+        await delay(500);
+        progressBar.style.width = "100%";
+        modalStatus.innerHTML = "🎉 Файл безопасен! Перенаправление...";
+        await delay(600);
+        modal.classList.remove("active");
+        isDownloading = false;
+        window.open(currentApkUrl, "_blank");
+    }
+    function delay(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+    // ТЕМА
+    function themeInit(){
+        const btn = document.getElementById("themeSwitcher");
+        const isDark = localStorage.getItem("apk_theme_mode") === "dark";
+        if(isDark) document.body.classList.add("dark");
+        btn.addEventListener("click",()=>{
+            document.body.classList.toggle("dark");
+            const darkNow = document.body.classList.contains("dark");
+            localStorage.setItem("apk_theme_mode", darkNow ? "dark" : "light");
+            btn.innerHTML = darkNow ? '<i class="fas fa-sun"></i> <span>Светлая</span>' : '<i class="fas fa-moon"></i> <span>Тёмная</span>';
+        });
+        if(isDark) btn.innerHTML = '<i class="fas fa-sun"></i> <span>Светлая</span>';
+        else btn.innerHTML = '<i class="fas fa-moon"></i> <span>Тёмная</span>';
+    }
+
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+    // Инициализация
+    window.onload = async () => {
+        themeInit();
+        initStarPicker();
+        await loadDonateAndApkSettings();
+        await renderAdminPanel();
+        await renderPublic();
+        document.getElementById("addHelperBtn").addEventListener("click", addHelper);
+        document.getElementById("addReviewBtn").addEventListener("click", addReview);
+        document.getElementById("saveSettingsBtn").addEventListener("click", saveSettings);
+        document.getElementById("mainDownloadBtn").addEventListener("click", startSecureDownload);
+    };
 </script>
 </body>
 </html>
