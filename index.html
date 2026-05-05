@@ -2,221 +2,197 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>RtpBox — неон VPN | Админка 1/1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RtpBox | VPN админка</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
-            background: radial-gradient(circle at 0% 20%, #050814, #000000);
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-            color: #f0f3ff;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+            background: #0a0c15;
+            color: #eef2ff;
             line-height: 1.5;
         }
-
-        /* стекло */
-        .glass-card {
-            background: rgba(15, 25, 45, 0.45);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(128, 100, 255, 0.4);
-            border-radius: 40px;
-        }
-
         .container {
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 24px 20px;
+            padding: 20px;
         }
-
-        /* header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
-            background: rgba(8, 12, 28, 0.7);
-            backdrop-filter: blur(16px);
-            padding: 12px 28px;
-            border-radius: 100px;
-            border: 1px solid #3b2f70;
-            margin-bottom: 56px;
+            gap: 15px;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #1f2937;
         }
-
         .logo {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #c084fc, #6c5ce7);
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #a78bfa, #6366f1);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             cursor: pointer;
-            letter-spacing: -0.5px;
         }
-
         .nav {
             display: flex;
-            gap: 28px;
+            gap: 25px;
             flex-wrap: wrap;
         }
-
         .nav span {
-            color: #ccd6f6;
-            font-weight: 500;
             cursor: pointer;
+            color: #9ca3af;
             transition: 0.2s;
         }
-
         .nav span:hover {
-            color: #b9aaff;
-            text-shadow: 0 0 6px #6c5ce7;
+            color: #a78bfa;
         }
-
-        /* hero */
         .hero {
             text-align: center;
-            padding: 48px 16px;
+            padding: 40px 0;
         }
-
         .hero h1 {
-            font-size: 56px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff, #b177ff);
+            font-size: 48px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff, #a78bfa);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 20px;
         }
-
-        .glow-text {
-            color: #b9c7e6;
-            font-size: 18px;
-            max-width: 600px;
-            margin: 0 auto 24px;
-        }
-
         .badge {
-            background: #111a2e;
-            border: 1px solid #6c5ce7;
-            padding: 6px 20px;
-            border-radius: 60px;
-            font-size: 13px;
+            background: #1e293b;
             display: inline-block;
-            box-shadow: 0 0 6px #6c5ce7;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 14px;
         }
-
-        /* карточки */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-            margin: 56px 0;
+            gap: 25px;
+            margin: 50px 0;
         }
-
         .card {
-            background: rgba(10, 15, 30, 0.8);
-            backdrop-filter: blur(8px);
-            border: 1px solid #2a2f55;
-            border-radius: 36px;
-            padding: 28px;
-            transition: 0.2s;
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 24px;
+            padding: 24px;
         }
-
-        .card:hover {
-            border-color: #8b6eff;
-            transform: translateY(-4px);
-        }
-
         .btn {
-            background: linear-gradient(105deg, #6c5ce7, #9b7aff);
+            background: #6366f1;
             border: none;
-            padding: 12px 28px;
-            border-radius: 48px;
+            padding: 10px 24px;
+            border-radius: 40px;
             font-weight: 600;
             color: white;
             cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.4);
+            font-size: 14px;
+            display: inline-block;
+            margin: 5px;
         }
-
-        .btn-small {
-            padding: 6px 16px;
-            font-size: 13px;
+        .btn-red {
+            background: #dc2626;
         }
-
+        .btn-green {
+            background: #10b981;
+        }
         .donate-block {
-            background: rgba(10, 14, 28, 0.8);
-            border-radius: 48px;
+            background: #0f172a;
+            border-radius: 28px;
             padding: 48px 24px;
             text-align: center;
-            margin: 48px 0;
-            border: 1px solid #3e3560;
+            margin: 40px 0;
         }
-
         footer {
             text-align: center;
-            padding: 32px;
-            border-top: 1px solid #262c48;
-            margin-top: 48px;
-            font-size: 13px;
-        }
-
-        /* админ-панель */
-        .admin-footer {
+            padding: 30px;
+            border-top: 1px solid #1f2937;
             margin-top: 40px;
-            text-align: center;
+            color: #6b7280;
         }
-
-        .admin-toggle {
-            background: transparent;
-            border: 1px solid #6c5ce7;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 13px;
-            cursor: pointer;
-            color: #beb9ff;
-        }
-
-        .admin-panel {
-            display: none;
-            margin-top: 24px;
-            padding: 20px;
-            background: #0a0f22cc;
-            backdrop-filter: blur(24px);
-            border-radius: 56px;
-            flex-wrap: wrap;
-            gap: 16px;
-            justify-content: center;
-        }
-
-        .admin-panel.show {
+        .admin-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1e293b;
+            padding: 12px 24px;
+            border-radius: 60px;
             display: flex;
+            gap: 12px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
-
+        .admin-bar button {
+            margin: 0;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-card {
+            background: #1e293b;
+            border-radius: 28px;
+            padding: 30px;
+            width: 300px;
+        }
         input, textarea {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             margin: 8px 0;
-            border-radius: 48px;
-            background: #0a1022;
-            border: 1px solid #3b3370;
+            border-radius: 24px;
+            border: 1px solid #334155;
+            background: #0f172a;
             color: white;
         }
-
         [contenteditable="true"] {
-            outline: 2px solid #a77cff;
-            padding: 4px 12px;
-            border-radius: 32px;
-            background: rgba(108, 92, 231, 0.2);
+            outline: 2px dashed #818cf8;
+            padding: 4px 8px;
+            border-radius: 16px;
         }
-
         .stars {
-            color: #facc15;
+            color: #fbbf24;
             margin: 8px 0;
+        }
+        .admin-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #0f172a;
+            padding: 8px 16px;
+            display: none;
+            justify-content: center;
+            gap: 16px;
+            z-index: 99;
+            border-bottom: 1px solid #6366f1;
+        }
+        .admin-mode.show {
+            display: flex;
+        }
+        @media (max-width: 700px) {
+            .hero h1 { font-size: 32px; }
+            .container { padding: 16px; }
         }
     </style>
 </head>
@@ -238,62 +214,71 @@
     <div id="home">
         <div class="hero">
             <h1 id="heroTitle" class="editable">RtpBox без границ</h1>
-            <p id="heroDesc" class="editable glow-text">Молниеносный VPN. Полная анонимность. Без логов.</p>
-            <div class="badge" id="versionText">✨ v1.2.0 stable</div>
+            <p id="heroDesc" class="editable">Скорость, анонимность, надёжность</p>
+            <div class="badge" id="versionText">v1.2.0</div>
         </div>
     </div>
 
     <div id="features">
-        <h2 style="text-align:center;">Ключевое</h2>
+        <h2 style="text-align:center;">Технологии</h2>
         <div class="grid">
-            <div class="card"><h3>⚡ 1 Гбит/с</h3><p>4K, стриминг, торрент</p></div>
-            <div class="card"><h3>🔐 VLESS + Reality</h3><p>Невидимый для DPI</p></div>
-            <div class="card"><h3>🕶️ zero‑log</h3><p>Никто не узнает</p></div>
+            <div class="card"><h3>⚡ 1 Гбит/с</h3><p>Без ограничений</p></div>
+            <div class="card"><h3>🔒 VLESS / Reality</h3><p>Маскировка трафика</p></div>
+            <div class="card"><h3>🕶️ Zero-log</h3><p>Полная анонимность</p></div>
         </div>
     </div>
 
     <div id="reviews">
         <h2 style="text-align:center;">Отзывы</h2>
-        <div id="reviewsContainer" class="grid"></div>
-        <div id="reviewsPanel" style="text-align:center; margin:24px 0;"></div>
+        <div id="reviewsList" class="grid"></div>
+        <div id="reviewsPanel" style="text-align:center;"></div>
     </div>
 
     <div id="team">
         <h2 style="text-align:center;">Команда</h2>
-        <div id="teamContainer" class="grid"></div>
+        <div id="teamList" class="grid"></div>
         <div id="teamPanel" style="text-align:center;"></div>
     </div>
 
-    <div id="download" style="text-align:center; margin:48px 0;">
-        <h2 class="editable">Установить</h2>
+    <div id="download" style="text-align:center; margin:40px 0;">
+        <h2 class="editable">Скачать RtpBox</h2>
         <button class="btn" id="downloadBtn">📥 APK</button>
-        <p style="margin:16px 0 0;">скачали <span id="downloadCounterSpan">0</span> раз</p>
-        <div id="downloadEditor" style="margin-top:20px;"></div>
+        <p style="margin-top:12px;">Скачали: <span id="downloadCount">0</span> раз</p>
+        <div id="downloadEditor"></div>
     </div>
 
     <div id="donate" class="donate-block">
         <h2 class="editable">Поддержать</h2>
         <div><a href="#" id="donateLink" class="btn" target="_blank">❤️ DonationAlerts</a></div>
-        <div id="donateEditor" style="margin-top:20px;"></div>
+        <div id="donateEditor"></div>
     </div>
 
     <footer>
-        <p>RtpBox — чистая свобода</p>
+        <p>RtpBox — свобода в интернете</p>
     </footer>
+</div>
 
-    <div class="admin-footer">
-        <button id="adminRevealBtn" class="admin-toggle">🔓 Админ</button>
-        <div id="adminDropdown" class="admin-panel">
-            <input type="text" id="adminLoginInput" placeholder="Логин" value="1">
-            <input type="password" id="adminPassInput" placeholder="Пароль" value="1">
-            <button id="adminLoginBtn" class="btn-small btn">Войти</button>
-            <button id="exitAdminBtn" class="btn-small btn" style="background:#4a3760;">Выйти</button>
-        </div>
+<div id="adminTopBar" class="admin-mode">
+    <button id="editModeBtn" class="btn">✏️ Режим правки</button>
+    <button id="exitAdminBtn" class="btn btn-red">🚪 Выйти</button>
+</div>
+
+<div id="adminBottomBar" class="admin-bar">
+    <button id="adminLoginBtn">🔓 Admin</button>
+</div>
+
+<div id="adminModal" class="modal">
+    <div class="modal-card">
+        <h3 style="margin-bottom:20px;">Вход в админку</h3>
+        <input type="text" id="loginInput" placeholder="Логин" value="1">
+        <input type="password" id="passInput" placeholder="Пароль" value="1">
+        <button id="submitLoginBtn" class="btn" style="width:100%; margin-top:16px;">Войти</button>
+        <button id="closeModalBtn" class="btn" style="width:100%; margin-top:8px; background:#334155;">Закрыть</button>
     </div>
 </div>
 
 <script>
-    // SUPABASE
+    // ========== SUPABASE ==========
     const SB_URL = 'https://paacjtojjlwprywgjzry.supabase.co/rest/v1/';
     const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBhYWNqdG9qamx3cHJ5d2dqenJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MDY2MTcsImV4cCI6MjA5MzQ4MjYxN30.3M76ekS7MzYQskaoX9bdJqKutoZ_6OC0EOXv93Rq4WQ';
 
@@ -308,136 +293,170 @@
         return res.json();
     }
 
-    let isAdmin = false, editMode = false;
-    let reviews = [], teamList = [];
+    // ========== ДАННЫЕ ==========
+    let isAdmin = false;
+    let editMode = false;
+    let reviews = [];
+    let team = [];
     let settings = { download_count: 0, donate_url: '', download_url: '' };
 
-    async function reload() {
-        reviews = await api('GET', 'reviews');
-        teamList = await api('GET', 'team');
-        const s = await api('GET', 'settings');
-        if (s.length) settings = s[0];
-        document.getElementById('downloadCounterSpan').innerText = settings.download_count || 0;
-        if (settings.donate_url) document.getElementById('donateLink').href = settings.donate_url;
-        renderReviews();
-        renderTeam();
-        renderEditors();
+    // ========== ЗАГРУЗКА ==========
+    async function loadAll() {
+        try {
+            reviews = await api('GET', 'reviews');
+            team = await api('GET', 'team');
+            const s = await api('GET', 'settings');
+            if (s.length) settings = s[0];
+            document.getElementById('downloadCount').innerText = settings.download_count || 0;
+            if (settings.donate_url) document.getElementById('donateLink').href = settings.donate_url;
+            renderReviews();
+            renderTeam();
+            renderEditors();
+        } catch(e) { console.error(e); }
     }
 
+    // ========== ОТРИСОВКА ==========
     function renderReviews() {
-        const container = document.getElementById('reviewsContainer');
+        const container = document.getElementById('reviewsList');
         if (!container) return;
-        const approvedOnly = reviews.filter(r => r.status === 'approved');
+        const approved = reviews.filter(r => r.status === 'approved');
         if (editMode && isAdmin) {
             container.innerHTML = reviews.map(r => `
                 <div class="card" data-id="${r.id}">
-                    <input class="revName" value="${escapeHtml(r.name)}" style="width:100%">
+                    <input class="rev-name" value="${safe(r.name)}" style="width:100%">
                     <div class="stars">${'⭐'.repeat(r.stars || 5)}</div>
-                    <textarea class="revText" rows="2">${escapeHtml(r.text)}</textarea>
-                    <div style="margin:8px 0">${r.status === 'approved' ? '✅ Опубликован' : '⏳ Проверка'}</div>
-                    <button class="approveRev btn-small btn" data-id="${r.id}" ${r.status === 'approved' ? 'disabled' : ''}>✅ Одобрить</button>
-                    <button class="deleteRev btn-small btn" style="background:#b91c1c" data-id="${r.id}">🗑 Удалить</button>
+                    <textarea class="rev-text" rows="2">${safe(r.text)}</textarea>
+                    <div style="margin:6px 0">${r.status === 'approved' ? '✅ Одобрен' : '⏳ На проверке'}</div>
+                    <button class="approve-review btn btn-green btn" data-id="${r.id}" ${r.status === 'approved' ? 'disabled' : ''}>Одобрить</button>
+                    <button class="delete-review btn btn-red btn" data-id="${r.id}">Удалить</button>
                 </div>
             `).join('');
-            // события
-            document.querySelectorAll('.approveRev').forEach(btn => btn.onclick = async (e) => { await api('PATCH', 'reviews', { status: 'approved' }, btn.dataset.id); reload(); });
-            document.querySelectorAll('.deleteRev').forEach(btn => btn.onclick = async (e) => { await api('DELETE', 'reviews', null, btn.dataset.id); reload(); });
-            const panel = document.getElementById('reviewsPanel');
-            panel.innerHTML = '<button id="addReviewBtn" class="btn btn-small">➕ Добавить отзыв</button>';
-            document.getElementById('addReviewBtn')?.addEventListener('click', async () => { await api('POST', 'reviews', { name: 'Новый пользователь', stars: 5, text: 'Текст отзыва', status: 'pending' }); reload(); });
+            attachReviewEvents();
+            document.getElementById('reviewsPanel').innerHTML = `<button id="addReviewBtn" class="btn">+ Добавить отзыв</button>`;
+            document.getElementById('addReviewBtn')?.addEventListener('click', async () => {
+                await api('POST', 'reviews', { name: 'Новый отзыв', stars: 5, text: 'Текст', status: 'pending' });
+                loadAll();
+            });
         } else {
-            container.innerHTML = approvedOnly.map(r => `<div class="card"><strong>${escapeHtml(r.name)}</strong><div class="stars">${'⭐'.repeat(r.stars)}</div><p>${escapeHtml(r.text)}</p></div>`).join('');
+            container.innerHTML = approved.map(r => `<div class="card"><strong>${safe(r.name)}</strong><div class="stars">${'⭐'.repeat(r.stars)}</div><p>${safe(r.text)}</p></div>`).join('');
             document.getElementById('reviewsPanel').innerHTML = '';
         }
     }
 
+    function attachReviewEvents() {
+        document.querySelectorAll('.approve-review').forEach(btn => {
+            btn.onclick = async () => {
+                await api('PATCH', 'reviews', { status: 'approved' }, btn.dataset.id);
+                loadAll();
+            };
+        });
+        document.querySelectorAll('.delete-review').forEach(btn => {
+            btn.onclick = async () => {
+                await api('DELETE', 'reviews', null, btn.dataset.id);
+                loadAll();
+            };
+        });
+    }
+
     function renderTeam() {
-        const container = document.getElementById('teamContainer');
+        const container = document.getElementById('teamList');
         if (!container) return;
         if (editMode && isAdmin) {
-            container.innerHTML = teamList.map(m => `
+            container.innerHTML = team.map(m => `
                 <div class="card" data-id="${m.id}">
-                    <input class="teamName" value="${escapeHtml(m.name)}" style="width:100%">
-                    <input class="teamRole" value="${escapeHtml(m.role)}" style="width:100%">
-                    <input class="teamLink" value="${escapeHtml(m.tg_link)}" style="width:100%">
-                    <button class="deleteTeam btn-small btn" style="background:#b91c1c; margin-top:8px" data-id="${m.id}">🗑 Удалить</button>
+                    <input class="team-name" value="${safe(m.name)}" style="width:100%">
+                    <input class="team-role" value="${safe(m.role)}" style="width:100%">
+                    <input class="team-link" value="${safe(m.tg_link)}" style="width:100%">
+                    <button class="delete-team btn btn-red btn" style="margin-top:8px" data-id="${m.id}">Удалить</button>
                 </div>
             `).join('');
-            document.querySelectorAll('.deleteTeam').forEach(btn => btn.onclick = async () => { await api('DELETE', 'team', null, btn.dataset.id); reload(); });
-            const panel = document.getElementById('teamPanel');
-            panel.innerHTML = '<button id="addTeamBtn" class="btn btn-small">➕ Добавить помощника</button>';
-            document.getElementById('addTeamBtn')?.addEventListener('click', async () => { await api('POST', 'team', { name: 'Новый участник', role: 'Помощник', tg_link: 'https://t.me/' }); reload(); });
+            attachTeamEvents();
+            document.getElementById('teamPanel').innerHTML = `<button id="addTeamBtn" class="btn">+ Добавить участника</button>`;
+            document.getElementById('addTeamBtn')?.addEventListener('click', async () => {
+                await api('POST', 'team', { name: 'Новый участник', role: 'Помощник', tg_link: 'https://t.me/' });
+                loadAll();
+            });
         } else {
-            container.innerHTML = teamList.map(m => `<div class="card"><strong>${escapeHtml(m.name)}</strong><p>${escapeHtml(m.role)}</p><a href="${escapeHtml(m.tg_link)}" target="_blank" class="btn-small btn">Написать →</a></div>`).join('');
+            container.innerHTML = team.map(m => `<div class="card"><strong>${safe(m.name)}</strong><p>${safe(m.role)}</p><a href="${safe(m.tg_link)}" target="_blank" class="btn">Написать</a></div>`).join('');
             document.getElementById('teamPanel').innerHTML = '';
         }
     }
 
+    function attachTeamEvents() {
+        document.querySelectorAll('.delete-team').forEach(btn => {
+            btn.onclick = async () => {
+                await api('DELETE', 'team', null, btn.dataset.id);
+                loadAll();
+            };
+        });
+    }
+
     function renderEditors() {
         if (editMode && isAdmin) {
-            document.getElementById('downloadEditor').innerHTML = `<div><input id="apkInput" value="${escapeHtml(settings.download_url)}" style="width:70%"><button id="saveApk" class="btn-small btn">Сохранить APK</button></div>`;
-            document.getElementById('donateEditor').innerHTML = `<div><input id="donateInput" value="${escapeHtml(settings.donate_url)}" style="width:70%"><button id="saveDonate" class="btn-small btn">Сохранить донат</button></div>`;
-            document.getElementById('saveApk')?.addEventListener('click', async () => { await api('PATCH', 'settings', { download_url: document.getElementById('apkInput').value }, 1); reload(); alert('APK обновлена ✅'); });
-            document.getElementById('saveDonate')?.addEventListener('click', async () => { await api('PATCH', 'settings', { donate_url: document.getElementById('donateInput').value }, 1); reload(); alert('Ссылка доната обновлена ✅'); });
+            document.getElementById('downloadEditor').innerHTML = `<div style="margin-top:10px"><input id="apkUrl" value="${safe(settings.download_url)}" style="width:70%"><button id="saveApkBtn" class="btn">Сохранить APK</button></div>`;
+            document.getElementById('donateEditor').innerHTML = `<div style="margin-top:10px"><input id="donateUrl" value="${safe(settings.donate_url)}" style="width:70%"><button id="saveDonateBtn" class="btn">Сохранить донат</button></div>`;
+            document.getElementById('saveApkBtn')?.addEventListener('click', async () => {
+                await api('PATCH', 'settings', { download_url: document.getElementById('apkUrl').value }, 1);
+                loadAll();
+                alert('APK обновлена');
+            });
+            document.getElementById('saveDonateBtn')?.addEventListener('click', async () => {
+                await api('PATCH', 'settings', { donate_url: document.getElementById('donateUrl').value }, 1);
+                loadAll();
+                alert('Донат обновлён');
+            });
         } else {
             document.getElementById('downloadEditor').innerHTML = '';
             document.getElementById('donateEditor').innerHTML = '';
         }
     }
 
-    function escapeHtml(str) { return str?.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') || ''; }
+    function safe(str) { return str?.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') || ''; }
 
+    // ========== СЧЁТЧИК СКАЧИВАНИЙ ==========
     document.getElementById('downloadBtn').onclick = async () => {
-        await api('PATCH', 'settings', { download_count: (settings.download_count || 0) + 1 }, 1);
-        reload();
+        const newCount = (settings.download_count || 0) + 1;
+        await api('PATCH', 'settings', { download_count: newCount }, 1);
+        loadAll();
         alert('Скачивание начато');
     };
 
-    // АДМИНКА новая
-    document.getElementById('adminRevealBtn').onclick = () => document.getElementById('adminDropdown').classList.toggle('show');
-    document.getElementById('adminLoginBtn').onclick = () => {
-        const l = document.getElementById('adminLoginInput').value;
-        const p = document.getElementById('adminPassInput').value;
-        if (l === '1' && p === '1') {
+    // ========== АДМИНКА ==========
+    document.getElementById('adminLoginBtn').onclick = () => document.getElementById('adminModal').classList.add('show');
+    document.getElementById('closeModalBtn').onclick = () => document.getElementById('adminModal').classList.remove('show');
+    document.getElementById('submitLoginBtn').onclick = () => {
+        const login = document.getElementById('loginInput').value;
+        const pass = document.getElementById('passInput').value;
+        if (login === '1' && pass === '1') {
             isAdmin = true;
             localStorage.setItem('rtp_admin', '1');
-            document.getElementById('adminDropdown').classList.remove('show');
-            alert('✅ Админ включён. Нажмите "Режим правки"');
-            document.getElementById('adminRevealBtn').innerHTML = '🔓 Admin ON';
-        } else alert('Логин / пароль: 1 / 1');
+            document.getElementById('adminModal').classList.remove('show');
+            document.getElementById('adminTopBar').classList.add('show');
+            alert('Админ-режим включён');
+            loadAll();
+        } else alert('Логин/пароль: 1 / 1');
     };
     document.getElementById('exitAdminBtn').onclick = () => {
         isAdmin = false;
         editMode = false;
         localStorage.removeItem('rtp_admin');
+        document.getElementById('adminTopBar').classList.remove('show');
         location.reload();
     };
-
-    // глобальные кнопки правки
-    const bar = document.createElement('div');
-    bar.style.display = 'flex';
-    bar.style.gap = '16px';
-    bar.style.justifyContent = 'center';
-    bar.style.margin = '16px 0 0';
-    bar.innerHTML = `<button id="editModeBtn" class="btn-small btn">✏️ Режим правки</button><button id="saveBtn" class="btn-small btn">💾 Сохранить</button>`;
-    document.querySelector('.container').appendChild(bar);
-
     document.getElementById('editModeBtn').onclick = () => {
-        if (!isAdmin) { alert('Не админ'); return; }
+        if (!isAdmin) { alert('Вы не админ'); return; }
         editMode = !editMode;
         document.querySelectorAll('.editable').forEach(el => {
             el.contentEditable = editMode;
-            el.style.backgroundColor = editMode ? 'rgba(108, 92, 231, 0.2)' : '';
+            el.style.backgroundColor = editMode ? 'rgba(99,102,241,0.1)' : '';
         });
         renderReviews();
         renderTeam();
         renderEditors();
     };
-    document.getElementById('saveBtn').onclick = () => alert('✅ Данные уже в Supabase');
-
     document.querySelectorAll('.nav span').forEach(span => span.onclick = () => {
-        const sec = document.getElementById(span.getAttribute('data-section'));
-        if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+        const id = span.getAttribute('data-section');
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     });
 
     let logoClick = 0;
@@ -446,16 +465,21 @@
         setTimeout(() => logoClick = 0, 800);
         if (logoClick === 5) {
             logoClick = 0;
-            if (localStorage.getItem('rtp_admin') === '1') alert('Админ уже активен');
-            else document.getElementById('adminDropdown').classList.toggle('show');
+            if (localStorage.getItem('rtp_admin') === '1') {
+                isAdmin = true;
+                document.getElementById('adminTopBar').classList.add('show');
+                alert('Админ уже активен');
+            } else {
+                document.getElementById('adminModal').classList.add('show');
+            }
         }
     };
 
     if (localStorage.getItem('rtp_admin') === '1') {
         isAdmin = true;
-        document.getElementById('adminRevealBtn').innerHTML = '🔓 Admin ON';
+        document.getElementById('adminTopBar').classList.add('show');
     }
-    reload();
+    loadAll();
 </script>
 </body>
 </html>
